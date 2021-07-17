@@ -6,7 +6,7 @@ import { ProfileRelationsBoxWrapper } from '../src/components/ProfileRelations';
 
 function ProfileSidebar(propriedades) {
   return (
-    <Box>
+    <Box as ="aside">
       <img
         src={`https://github.com/${propriedades.githubUser}.png`}
         style={{ borderRadius: "8px", width: "100%"}}
@@ -31,10 +31,35 @@ export default function Home() {
 
 
     const [comunidades, setComunidades] = React.useState([{
-      id: '1235465165',
+      id: '12354625255165',
       title: 'Eu odeio acordar cedo',
-      image: 'https://alurakut.vercel.app/capa-comunidade-01.jpg'
+      image: 'https://alurakut.vercel.app/capa-comunidade-01.jpg',
+
     }]);
+
+    const comunidadesJaInseridas = [
+      {id: '123547285652872165',
+      title: 'Amo caneta em gel',
+      image: 'https://www.fatosdesconhecidos.com.br/wp-content/uploads/2017/06/dscf0268-1024x768.jpg',
+      link: <a href={'https://veja.abril.com.br/tecnologia/vendi-a-maior-comunidade-do-orkut/'} />},
+
+      {id: '123547282839657227832872165',
+      title: 'Músicas MP3',
+      image: 'https://www.gadoo.com.br/wp-content/uploads/2015/08/8103.jpg'},
+
+      {id: '1235462939382725165',
+      title: 'Malhação',
+      image: 'http://2.bp.blogspot.com/-jdmwcnWh3vI/TWLB18SEr-I/AAAAAAAAAyg/UIInKPSj3Us/s1600/BaseCD-7891430310820-capa.jpg'},
+
+
+      {id: '123546282792872723825165',
+      title: 'Eu nunca terminei uma borracha',
+      image: 'https://mercur.vteximg.com.br/arquivos/ids/159006-1000-1000/borracha_prima_2.jpg?v=636840182910830000'},
+
+      {id: '1234815154398282773636245165',
+      title: 'Um mamão vai na cabeça',
+      image: 'https://scontent.fbau1-1.fna.fbcdn.net/v/l/t1.6435-9/59844161_264004154404326_1430639862402252800_n.jpg?_nc_cat=105&ccb=1-3&_nc_sid=e3f864&_nc_eui2=AeETmAfwIKna3MHAPEDPsqv6LYdeld5rn8gth16V3mufyO37DG9Qxb4UaZoybWVGd9M&_nc_ohc=-fb9ycoUl_4AX8gN5TI&_nc_ht=scontent.fbau1-1.fna&oh=286a06ce0da455c5fb685287fc207da1&oe=60F74965'},
+    ]
     const usuarioAleatorio = 'caroldireito1';
     const pessoasFavoritas = [
       'juunegreiros',
@@ -42,7 +67,8 @@ export default function Home() {
       'peas',
       'rafaballerini',
       'marcobrunodev',
-      'felipefialho'
+      'felipefialho',
+      'caroldireito1',
     ]
 
   function ProfileRelationsBox(propriedades) {
@@ -51,20 +77,7 @@ export default function Home() {
         <h2 className="smallTitle">
           {propriedades.title} ({propriedades.items.length})
         </h2>
-        <ul>
-          {seguidores.map((itemAtual) => {
-            return (
-                <li key={itemAtual.id}>
-                <a href={itemAtual.html_url}>
-                  <img src={itemAtual.avatar_url} />
-                  <span>{itemAtual.login}</span>
-                  
-                </a>
-              </li>
-              
-            );
-          })}
-        </ul>
+
       </ProfileRelationsBoxWrapper>
     );
   }
@@ -96,7 +109,7 @@ export default function Home() {
       <div className="welcomeArea" style={{ gridArea: 'welcomeArea' }}>
         <Box>
           <h1 className="title">
-            Bem vindo(a), Ana Carolina.
+            Bem vinda, ~Karol~.
           </h1>
 
           <OrkutNostalgicIconSet />
@@ -138,27 +151,28 @@ export default function Home() {
           </form>
         </Box>
         </div>
-        <div className="profileRelationsArea" style={{ gridArea: 'profileRelationsArea'}}>
-          <ProfileRelationsBoxWrapper>
-            <ul>
-                {comunidades.map((itemAtual) => {
-                  return (
-                    <li key={itemAtual.id}>
-                      <a href={`/users/${itemAtual.title}`} key={itemAtual}>
-                        <img src={itemAtual.image} />
-                        <span>{itemAtual.title}</span>
-                      </a>
-                    </li>
-                  )
-                })}
-              </ul>
+        
+        <div className="profileRelationsArea" style={{ gridArea: 'profileRelationsArea'}}>     
+        <Box style={{padding: "5px"}}>      
+        <ProfileRelationsBoxWrapper>
+          <h2 className="smallTitle">
+          Seguidores  ({seguidores.length})
+          </h2>
+          <ul>
+          {seguidores.map((itemAtual) => {
+            return (
+                <li key={itemAtual.id}>
+                <a href={itemAtual.html_url}>
+                  <img src={itemAtual.avatar_url} />
+                  <span>{itemAtual.login}</span>
+                </a>
+              </li>   
+            );
+          })}
+        </ul>
           </ProfileRelationsBoxWrapper>
-        <Box>        
-          <div style = {{height: "280px", overflow: 'hidden'}}>
-          <ProfileRelationsBox title="Seguidores" items={seguidores}/>
-          
-          </div>
-        </Box>   
+          </Box>
+          <Box style={{padding: "5px"}}>
           <ProfileRelationsBoxWrapper>
             <h2 className="smallTitle">
               Pessoas da comunidade ({pessoasFavoritas.length})
@@ -177,6 +191,41 @@ export default function Home() {
               })}
             </ul>
           </ProfileRelationsBoxWrapper>
+          </Box>
+
+          <Box style={{padding: "5px"}}>
+          <ProfileRelationsBoxWrapper>
+            <h2 className="smallTitle">
+              Comunidades ({comunidades.length + comunidadesJaInseridas.length})
+            </h2>
+
+            <ul style={{padding: "0px"}}>
+              {comunidades.map((itemAtual) => {
+                return (
+                  <li key={itemAtual.id}>
+                    <a href={`/users/${itemAtual}`}>
+                      <img src={itemAtual.image} />
+                      <span>{itemAtual.title}</span>
+                    </a>
+                  </li>
+                  
+                )
+              })}
+
+              {comunidadesJaInseridas.map((itemAtual) => {
+                return (
+                  <li key={itemAtual.id}>
+                    <a href={`${itemAtual.link}`}>
+                      <img src={itemAtual.image} />
+                      <span>{itemAtual.title}</span>
+                    </a>
+                  </li>
+                )
+              })}
+            </ul>
+          </ProfileRelationsBoxWrapper>
+          </Box>
+          
         </div>
       </MainGrid>
     </>

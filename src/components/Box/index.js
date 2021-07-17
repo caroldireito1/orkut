@@ -33,6 +33,8 @@ margin-bottom: 10px;
     font-weight: 700;
     color: #333333;
     margin-bottom: 20px;
+    overflow: hidden;
+    
 }
 hr {
     margin-top: 12px;
