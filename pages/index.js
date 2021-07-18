@@ -1,6 +1,7 @@
 import React from 'react';
 import MainGrid from '../src/components/MainGrid'
 import Box from '../src/components/Box'
+import BoxDepoimentos from '../src/components/BoxDepoimentos'
 import { AlurakutMenu, OrkutNostalgicIconSet, AlurakutProfileSidebarMenuDefault} from '../src/lib/AlurakutCommons';
 import { ProfileRelationsBoxWrapper } from '../src/components/ProfileRelations';
 
@@ -30,18 +31,18 @@ function ProfileSidebar(propriedades) {
 export default function Home() {
 
 
-    const [comunidades, setComunidades] = React.useState([{
-      id: '12354625255165',
-      title: 'Eu odeio acordar cedo',
-      image: 'https://alurakut.vercel.app/capa-comunidade-01.jpg',
-
-    }]);
+    const [comunidades, setComunidades] = React.useState([]);
+    const [depoimentos, setDepoimentos] = React.useState([]);
 
     const comunidadesJaInseridas = [
+
+      {id: '12354625255165',
+      title: 'Eu odeio acordar cedo',
+      image: 'https://alurakut.vercel.app/capa-comunidade-01.jpg'},
+
       {id: '123547285652872165',
       title: 'Amo caneta em gel',
-      image: 'https://www.fatosdesconhecidos.com.br/wp-content/uploads/2017/06/dscf0268-1024x768.jpg',
-      link: <a href={'https://veja.abril.com.br/tecnologia/vendi-a-maior-comunidade-do-orkut/'} />},
+      image: 'https://www.fatosdesconhecidos.com.br/wp-content/uploads/2017/06/dscf0268-1024x768.jpg'},
 
       {id: '123547282839657227832872165',
       title: 'Músicas MP3',
@@ -59,6 +60,16 @@ export default function Home() {
       {id: '1234815154398282773636245165',
       title: 'Um mamão vai na cabeça',
       image: 'https://scontent.fbau1-1.fna.fbcdn.net/v/l/t1.6435-9/59844161_264004154404326_1430639862402252800_n.jpg?_nc_cat=105&ccb=1-3&_nc_sid=e3f864&_nc_eui2=AeETmAfwIKna3MHAPEDPsqv6LYdeld5rn8gth16V3mufyO37DG9Qxb4UaZoybWVGd9M&_nc_ohc=-fb9ycoUl_4AX8gN5TI&_nc_ht=scontent.fbau1-1.fna&oh=286a06ce0da455c5fb685287fc207da1&oe=60F74965'},
+    ]
+
+    const depoimentosJaInseridos = [
+
+      {id: '12354625255165',
+      depo: 'O que dizer dessa pessoa que mal conheço mas já considero pakas',
+      image: 'https://alurakut.vercel.app/capa-comunidade-01.jpg'},
+      {id: '1235462832835255165',
+      depo: 'O que dizer dessa pessoa que mal conheço 2834mas já considero pakas',
+      image: 'https://alurakut.vercel.app/capa-comunidade-01.jpg'},
     ]
     const usuarioAleatorio = 'caroldireito1';
     const pessoasFavoritas = [
@@ -102,7 +113,6 @@ export default function Home() {
   <>
     <AlurakutMenu />
     <MainGrid>
-        {/* <Box style="grid-area: profileArea;"> */}
       <div className="profileArea" style={{ gridArea: 'profileArea' }}>
         <ProfileSidebar githubUser={usuarioAleatorio} />
       </div>
@@ -116,7 +126,7 @@ export default function Home() {
         </Box>
 
         <Box>
-          <h2 className="subTitle">O quê você deseja fazer?</h2>
+          <h2 className="subTitle">Crie uma comunidade</h2>
           <form onSubmit={function handleCriaComunidade(e) {
             e.preventDefault();
             const dadosDoForm = new FormData(e.target);
@@ -150,8 +160,96 @@ export default function Home() {
             </button>                
           </form>
         </Box>
+
+        <Box>
+        <h2 className="subTitle">Deixe seu depoimento</h2>
+          <form onSubmit={function handleCriaDepoimento(e) {
+            e.preventDefault();
+            const dadosDoForm = new FormData(e.target);
+            console.log('Campo: ', dadosDoForm.get('title'));
+            console.log('Campo: ', dadosDoForm.get ('image'));
+
+            const depoimento ={
+              id: new Date().toISOString(),
+              depo: dadosDoForm.get('depo'),
+              image: dadosDoForm.get ('image')
+            }
+
+            const depoimentosAtualizados = [...depoimentos, depoimento]
+            setDepoimentos(depoimentosAtualizados)
+          }}>
+            <div>
+              <input placeholder="Escreva aqui seu depoimento para Karol"
+              name="depo" 
+              aria-label="Escreva aqui seu depoimento para Karol"
+              type="text"
+              />
+            </div>
+            <div>
+              <input placeholder="Coloque a URL da sua foto" 
+              name="image" 
+              aria-label="Coloque a URL da sua foto"/>
+            </div>
+
+            <button style={{background: '#2E7BB4', borderRadius: "15px",}}>
+              Criar depoimento
+            </button>                
+          </form>
+        </Box>
+       <div>
+        <BoxDepoimentos style={{padding: "5px"}}>
+            <h2 className="smallTitle">
+              Depoimentos ({depoimentos.length + depoimentosJaInseridos.length})
+            </h2>
+
+            <ul>
+              {depoimentos.map((itemAtual) => {
+                return (
+                  <li class={"photo"} key={itemAtual.id}>
+                    <a href={itemAtual}>
+                      <img src={itemAtual.image} />
+                    </a>
+                  </li>
+
+                  
+                )
+              })}
+              
+              {depoimentos.map((itemAtual) => {
+                return (
+                  <li class={"content"} key={itemAtual.id}>
+                    <a href={itemAtual}>
+                    <span>{itemAtual.depo}</span>
+                    </a>
+                      
+                  </li>
+                  
+                )
+              })}
+
+              {depoimentosJaInseridos.map((itemAtual) => {
+                return (
+                  <li class={"photo"}  key={itemAtual.id}>
+                    <a href={`${itemAtual.link}`}>
+                      <img src={itemAtual.image} />
+                    </a>
+                  </li>                 
+                )
+              })}
+
+                {depoimentosJaInseridos.map((itemAtual) => {
+                return (
+                  <li class={"content"} key={itemAtual.id}>
+                    <span>{itemAtual.depo}</span>
+                      
+                  </li>                 
+                )
+              })}
+
+            </ul>      
+          </BoxDepoimentos>
         </div>
-        
+        </div>       
         <div className="profileRelationsArea" style={{ gridArea: 'profileRelationsArea'}}>     
         <Box style={{padding: "5px"}}>      
         <ProfileRelationsBoxWrapper>
@@ -169,6 +267,7 @@ export default function Home() {
               </li>   
             );
           })}
+
         </ul>
           </ProfileRelationsBoxWrapper>
           </Box>
