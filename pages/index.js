@@ -1,9 +1,12 @@
 import React from 'react';
+import nookies from 'nookies';
+import jwt from 'jsonwebtoken';
 import MainGrid from '../src/components/MainGrid'
 import Box from '../src/components/Box'
 import BoxDepoimentos from '../src/components/BoxDepoimentos'
 import { AlurakutMenu, OrkutNostalgicIconSet, AlurakutProfileSidebarMenuDefault} from '../src/lib/AlurakutCommons';
 import { ProfileRelationsBoxWrapper } from '../src/components/ProfileRelations';
+
 
 function ProfileSidebar(propriedades) {
   return (
@@ -28,7 +31,7 @@ function ProfileSidebar(propriedades) {
   );
 }
 
-export default function Home() {
+export default function Home(props) {
 
 
     const [comunidades, setComunidades] = React.useState([]);
@@ -65,13 +68,10 @@ export default function Home() {
     const depoimentosJaInseridos = [
 
       {id: '12354625255165',
-      depo: 'O que dizer dessa pessoa que mal conheço mas já considero pakas',
-      image: 'https://alurakut.vercel.app/capa-comunidade-01.jpg'},
-      {id: '1235462832835255165',
-      depo: 'O que dizer dessa pessoa que mal conheço 2834mas já considero pakas',
-      image: 'https://alurakut.vercel.app/capa-comunidade-01.jpg'},
+      depo: 'O ki dizer dessa pessoah que mal conheço + jah considero pakas? Só ki t-doluuu demaissss (LLLL)',
+      image: 'http://www.rdtladygaga.com/uploads/images/2020/11/724d0064385a1a04752acf115ba308c9_medium.jpg'},
     ]
-    const usuarioAleatorio = 'caroldireito1';
+    const usuarioAleatorio = props.githubUser;
     const pessoasFavoritas = [
       'juunegreiros',
       'omariosouto',
@@ -214,11 +214,11 @@ export default function Home() {
                   
                 )
               })}
-              
+
               {depoimentos.map((itemAtual) => {
                 return (
-                  <li class={"content"} key={itemAtual.id}>
-                    <a href={itemAtual}>
+                  <li class={"content"} key={itemAtual.depo.id}>
+                    <a href={itemAtual.depo}>
                     <span>{itemAtual.depo}</span>
                     </a>
                       
@@ -240,7 +240,7 @@ export default function Home() {
                 {depoimentosJaInseridos.map((itemAtual) => {
                 return (
                   <li class={"content"} key={itemAtual.id}>
-                    <span>{itemAtual.depo}</span>
+                    <div style={{padding: 'auto', textAlign: 'justify'}}>{itemAtual.depo}</div>
                       
                   </li>                 
                 )
@@ -329,4 +329,31 @@ export default function Home() {
       </MainGrid>
     </>
   )
+}
+
+export async function getServerSideProps(context) {
+  const cookies = nookies.get(context)
+  const token = cookies.USER_TOKEN;
+  const { isAuthenticated } = await fetch('https://alurakut.vercel.app/api/auth', {
+    headers: {
+        Authorization: token
+      }
+  })
+  .then((resposta) => resposta.json())
+
+  if(!isAuthenticated) {
+    return {
+      redirect: {
+        destination: '/login',
+        permanent: false,
+      }
+    }
+  }
+
+  const { githubUser } = jwt.decode(token);
+  return {
+    props: {
+      githubUser
+    }, // will be passed to the page component as props
+  }
 }

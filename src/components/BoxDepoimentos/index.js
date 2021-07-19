@@ -8,7 +8,10 @@ const BoxDepoimentos = styled(Box)`
     grid-template-columns: 1fr 5fr; 
     max-height: 200px;
     list-style: none;
-
+    background-color: #F4F4F4;
+    border-radius: 20px;
+    margin: auto;
+    
   }
 
 
@@ -16,33 +19,45 @@ const BoxDepoimentos = styled(Box)`
     grid-column: 1; /* ou grid-column: 1 / 2; */
 
   }
-  .content {
-    grid-column: 2 / 5; 
 
-  }
+  li{
+  .content{
+    margin: 50px
+    display: center;
+    grid-column: 2 / 5; 
+    text-align: center;
+    padding: 50px;
+
+    .span{
+      top: 50px;
+    }
+
+}
+}
   ul li a {
+    
+    padding: 10px;
     display: inline-block;
-    height: 102px;
+    height: 100px;
     position: relative;
     border-radius: 8px;
     img {
         object-fit: cover;
-        background-position: left;
         width: 100px;
         height: 100%;
         position: relative;
         display: inline-block;
+        border-radius: 20px;
+
       }
-    span {
+      span {
         color: black;
-        font-size: 20px;
+        font-size: 16px;
         position: absolute;
         z-index: 2;
-        padding: 0 4px;
-        width: 450px;
-        background-position: right;
+        padding: auto;
+        width: 100%;
       }
-
     &:after {
       content: "";
       display: table;
